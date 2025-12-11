@@ -2,13 +2,13 @@
 #define DUCKDB_PATCH_VERSION "0"
 #endif
 #ifndef DUCKDB_MINOR_VERSION
-#define DUCKDB_MINOR_VERSION 0
+#define DUCKDB_MINOR_VERSION 4
 #endif
 #ifndef DUCKDB_MAJOR_VERSION
-#define DUCKDB_MAJOR_VERSION 0
+#define DUCKDB_MAJOR_VERSION 1
 #endif
 #ifndef DUCKDB_VERSION
-#define DUCKDB_VERSION "v0.0.0"
+#define DUCKDB_VERSION "v1.4.0"
 #endif
 #ifndef DUCKDB_SOURCE_ID
 #define DUCKDB_SOURCE_ID "deadbeeff"

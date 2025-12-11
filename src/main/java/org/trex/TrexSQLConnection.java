@@ -15,6 +15,7 @@ import org.duckdb.ProfilerPrintFormat;
 public class TrexSQLConnection implements Connection {
 
     private final DuckDBConnection delegate;
+    private boolean readOnly = false;
 
     public TrexSQLConnection(DuckDBConnection delegate) {
         this.delegate = delegate;
@@ -122,12 +123,12 @@ public class TrexSQLConnection implements Connection {
 
     @Override
     public void setReadOnly(boolean readOnly) throws SQLException {
-        delegate.setReadOnly(readOnly);
+        this.readOnly = readOnly;
     }
 
     @Override
     public boolean isReadOnly() throws SQLException {
-        return delegate.isReadOnly();
+        return this.readOnly;
     }
 
     @Override

@@ -1,14 +1,9 @@
 jdk:
   - openjdk11
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y cmake ninja-build
-
 install:
-  - GEN=ninja make release
   - mkdir -p ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION
-  - cp build/release/duckdb_jdbc.jar ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION/$REPO_NAME-$VERSION.jar
+  - curl -L -o ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION/$REPO_NAME-$VERSION.jar https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$VERSION/trexsql-${VERSION#v}.jar
   - |
     cat > ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION/$REPO_NAME-$VERSION.pom << EOF
     <?xml version="1.0" encoding="UTF-8"?>
