@@ -104,7 +104,6 @@ public:
 	virtual vector<MetadataBlockInfo> GetMetadataInfo() = 0;
 	virtual shared_ptr<TableIOManager> GetTableIOManager(BoundCreateTableInfo *info) = 0;
 	virtual BlockManager &GetBlockManager() = 0;
-	virtual void Destroy();
 
 	void SetStorageVersion(idx_t version) {
 		storage_version = version;
@@ -194,7 +193,6 @@ public:
 	vector<MetadataBlockInfo> GetMetadataInfo() override;
 	shared_ptr<TableIOManager> GetTableIOManager(BoundCreateTableInfo *info) override;
 	BlockManager &GetBlockManager() override;
-	void Destroy() override;
 
 protected:
 	void LoadDatabase(QueryContext context) override;

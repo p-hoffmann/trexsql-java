@@ -2,15 +2,15 @@ name: Vendor
 on:
   workflow_call:
     inputs:
-      duckdb-sha:
-        description: 'Vendor Specific DuckDB SHA'
+      trexsql-sha:
+        description: 'Vendor Specific TrexSQL SHA'
         required: false
         default: ''
         type: 'string'
   workflow_dispatch:
     inputs:
-      duckdb-sha:
-        description: 'Vendor Specific DuckDB SHA'
+      trexsql-sha:
+        description: 'Vendor Specific TrexSQL SHA'
         required: false
         default: ''
         type: 'string'
@@ -18,7 +18,7 @@ on:
 jobs:
   vendor:
     name: "Update Vendored Sources"
-    if: ${{ github.repository == 'duckdb/duckdb-java' }}
+    if: ${{ github.repository == 'p-hoffmann/duckdb-java' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -38,35 +38,35 @@ jobs:
         uses: actions/checkout@v4
         id: checkout_engine
         with:
-          repository: duckdb/duckdb
-          path: .git/duckdb
+          repository: p-hoffmann/trexsql
+          path: .git/trexsql
           fetch-depth: 0
 
-      - name: Checkout engine rev 
+      - name: Checkout engine rev
         id: checkout_engine_rev
-        if: ${{ inputs.duckdb-sha != '' }}
-        working-directory: .git/duckdb
+        if: ${{ inputs.trexsql-sha != '' }}
+        working-directory: .git/trexsql
         run: |
-          echo "Checking out engine ref: ${{ inputs.duckdb-sha }} on branch: ${{ github.ref_name }}"
-          git checkout ${{ inputs.duckdb-sha }}
+          echo "Checking out engine ref: ${{ inputs.trexsql-sha }} on branch: ${{ github.ref_name }}"
+          git checkout ${{ inputs.trexsql-sha }}
 
       - name: Vendor sources
         if: ${{ steps.checkout_engine_rev.outcome == 'success' }}
         id: vendor
         run: |
-          REV=$(cd .git/duckdb && git rev-parse --short HEAD && cd ../..)
-          echo "Updating vendored DuckDB sources to ${REV}"
-          git config --global user.email "github_bot@duckdblabs.com"
-          git config --global user.name "DuckDB Labs GitHub Bot"
+          REV=$(cd .git/trexsql && git rev-parse --short HEAD && cd ../..)
+          echo "Updating vendored TrexSQL sources to ${REV}"
+          git config --global user.email "github_bot@trexsql.com"
+          git config --global user.name "TrexSQL GitHub Bot"
           # Vendoring branch must exist, it may or may not already have
           # a pending PR on it, we are rebasing it anyway
           git checkout vendoring-${{ github.ref_name }}
           git rebase ${{ github.ref_name }}
           # Call the vendoring script in the engine
           rm -rf src/duckdb
-          python vendor.py --duckdb .git/duckdb
+          python vendor.py --duckdb .git/trexsql
           # Clean up
-          rm -rf .git/duckdb
+          rm -rf .git/trexsql
           # Export vendor revision for use in later steps
           echo "vendor_rev=${REV}" >> "${GITHUB_OUTPUT}"
 
@@ -85,7 +85,7 @@ jobs:
         id: commit_and_push
         if: ${{ steps.check_for_changes.outcome == 'success' && steps.check_for_changes.outputs.has_changes == 'true' }}
         run: |
-          MSG="Update vendored DuckDB sources to ${{ steps.vendor.outputs.vendor_rev }}"
+          MSG="Update vendored TrexSQL sources to ${{ steps.vendor.outputs.vendor_rev }}"
           git add src/duckdb CMakeLists.txt
           git commit -m "${MSG}"
           git push -f origin vendoring-${{ github.ref_name }}
@@ -112,8 +112,8 @@ jobs:
         if: ${{ steps.check_pr_exists.outcome == 'success' }}
         run: |
             DATE="$(date +"%Y-%m-%d %H:%M:%S")"
-            CHANGE_LABEL="duckdb/duckdb#${{ steps.vendor.outputs.vendor_rev }}"
-            CHANGE_URL="https://github.com/duckdb/duckdb/commit/${{ steps.vendor.outputs.vendor_rev }}"
+            CHANGE_LABEL="p-hoffmann/trexsql#${{ steps.vendor.outputs.vendor_rev }}"
+            CHANGE_URL="https://github.com/p-hoffmann/trexsql/commit/${{ steps.vendor.outputs.vendor_rev }}"
             MSG=" - [${CHANGE_LABEL}](${CHANGE_URL}) imported at ${DATE}"
             echo "PR message: ${MSG}"
             echo "pr_msg=${MSG}" >> "${GITHUB_OUTPUT}"

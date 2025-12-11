@@ -65,9 +65,9 @@ SourceResultType PhysicalReset::GetData(ExecutionContext &context, DataChunk &ch
 		}
 		if (variable_scope == SetScope::SESSION) {
 			auto &client_config = ClientConfig::GetConfig(context.client);
-			client_config.set_variables.erase(option->name);
+			client_config.set_variables.erase(name.ToStdString());
 		} else {
-			config.ResetGenericOption(option->name);
+			config.ResetGenericOption(name);
 		}
 		return SourceResultType::FINISHED;
 	}

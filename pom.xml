@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.p-hoffmann</groupId>
+    <artifactId>trexsql-java</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>TrexSQL JDBC Driver</name>
+    <description>JDBC driver for TrexSQL (DuckDB fork)</description>
+    <url>https://github.com/p-hoffmann/trexsql-java</url>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>p-hoffmann</id>
+            <name>P. Hoffmann</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/p-hoffmann/trexsql-java.git</connection>
+        <developerConnection>scm:git:ssh://github.com:p-hoffmann/trexsql-java.git</developerConnection>
+        <url>https://github.com/p-hoffmann/trexsql-java</url>
+    </scm>
+
+    <!-- JitPack handles the actual build via jitpack.yml -->
+    <!-- This pom.xml provides Maven coordinates only -->
+
+</project>

@@ -99,7 +99,6 @@ AttachedDatabase::AttachedDatabase(DatabaseInstance &db, Catalog &catalog_p, str
 	} else {
 		type = AttachedDatabaseType::READ_WRITE_DATABASE;
 	}
-	visibility = options.visibility;
 	// We create the storage after the catalog to guarantee we allow extensions to instantiate the DuckCatalog.
 	catalog = make_uniq<DuckCatalog>(*this);
 	stored_database_path = std::move(options.stored_database_path);
@@ -117,7 +116,6 @@ AttachedDatabase::AttachedDatabase(DatabaseInstance &db, Catalog &catalog_p, Sto
 	} else {
 		type = AttachedDatabaseType::READ_WRITE_DATABASE;
 	}
-	visibility = options.visibility;
 
 	optional_ptr<StorageExtensionInfo> storage_info = storage_extension->storage_info.get();
 	catalog = storage_extension->attach(storage_info, context, *this, name, info, options);
@@ -229,9 +227,10 @@ void AttachedDatabase::SetReadOnlyDatabase() {
 }
 
 void AttachedDatabase::OnDetach(ClientContext &context) {
-	if (catalog) {
-		catalog->OnDetach(context);
+	if (!catalog) {
+		return;
 	}
+	catalog->OnDetach(context);
 }
 
 void AttachedDatabase::Close() {
@@ -243,21 +242,14 @@ void AttachedDatabase::Close() {
 
 	// shutting down: attempt to checkpoint the database
 	// but only if we are not cleaning up as part of an exception unwind
-	if (!Exception::UncaughtException() && storage && !ValidChecker::IsInvalidated(db)) {
-		if (!storage->InMemory()) {
-			try {
-				auto &config = DBConfig::GetConfig(db);
-				if (config.options.checkpoint_on_shutdown) {
-					CheckpointOptions options;
-					options.wal_action = CheckpointWALAction::DELETE_WAL;
-					storage->CreateCheckpoint(QueryContext(), options);
-				}
-			} catch (...) { // NOLINT
-			}
-		}
+	if (!Exception::UncaughtException() && storage && !storage->InMemory() && !ValidChecker::IsInvalidated(db)) {
 		try {
-			// destroy the storage
-			storage->Destroy();
+			auto &config = DBConfig::GetConfig(db);
+			if (config.options.checkpoint_on_shutdown) {
+				CheckpointOptions options;
+				options.wal_action = CheckpointWALAction::DELETE_WAL;
+				storage->CreateCheckpoint(QueryContext(), options);
+			}
 		} catch (...) { // NOLINT
 		}
 	}

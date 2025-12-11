@@ -350,45 +350,45 @@ set(DUCKDB_SRC_FILES
   src/duckdb/extension/core_functions/lambda_functions.cpp
   src/duckdb/extension/core_functions/function_list.cpp
   src/duckdb/extension/core_functions/core_functions_extension.cpp
-  src/duckdb/ub_extension_core_functions_aggregate_distributive.cpp
-  src/duckdb/ub_extension_core_functions_aggregate_nested.cpp
-  src/duckdb/ub_extension_core_functions_aggregate_regression.cpp
-  src/duckdb/ub_extension_core_functions_aggregate_algebraic.cpp
-  src/duckdb/ub_extension_core_functions_aggregate_holistic.cpp
-  src/duckdb/ub_extension_core_functions_scalar_string.cpp
-  src/duckdb/ub_extension_core_functions_scalar_bit.cpp
-  src/duckdb/ub_extension_core_functions_scalar_operators.cpp
-  src/duckdb/ub_extension_core_functions_scalar_enum.cpp
-  src/duckdb/ub_extension_core_functions_scalar_map.cpp
-  src/duckdb/ub_extension_core_functions_scalar_random.cpp
-  src/duckdb/ub_extension_core_functions_scalar_math.cpp
   src/duckdb/ub_extension_core_functions_scalar_union.cpp
-  src/duckdb/ub_extension_core_functions_scalar_generic.cpp
   src/duckdb/ub_extension_core_functions_scalar_struct.cpp
+  src/duckdb/ub_extension_core_functions_scalar_string.cpp
+  src/duckdb/ub_extension_core_functions_scalar_random.cpp
+  src/duckdb/ub_extension_core_functions_scalar_operators.cpp
+  src/duckdb/ub_extension_core_functions_scalar_math.cpp
+  src/duckdb/ub_extension_core_functions_scalar_map.cpp
   src/duckdb/ub_extension_core_functions_scalar_list.cpp
-  src/duckdb/ub_extension_core_functions_scalar_array.cpp
+  src/duckdb/ub_extension_core_functions_scalar_generic.cpp
+  src/duckdb/ub_extension_core_functions_scalar_enum.cpp
   src/duckdb/ub_extension_core_functions_scalar_debug.cpp
-  src/duckdb/ub_extension_core_functions_scalar_blob.cpp
   src/duckdb/ub_extension_core_functions_scalar_date.cpp
-  src/duckdb/extension/parquet/parquet_writer.cpp
+  src/duckdb/ub_extension_core_functions_scalar_blob.cpp
+  src/duckdb/ub_extension_core_functions_scalar_bit.cpp
+  src/duckdb/ub_extension_core_functions_scalar_array.cpp
+  src/duckdb/ub_extension_core_functions_aggregate_regression.cpp
+  src/duckdb/ub_extension_core_functions_aggregate_nested.cpp
+  src/duckdb/ub_extension_core_functions_aggregate_holistic.cpp
+  src/duckdb/ub_extension_core_functions_aggregate_distributive.cpp
+  src/duckdb/ub_extension_core_functions_aggregate_algebraic.cpp
   src/duckdb/extension/parquet/zstd_file_system.cpp
-  src/duckdb/extension/parquet/parquet_crypto.cpp
-  src/duckdb/extension/parquet/parquet_reader.cpp
-  src/duckdb/extension/parquet/parquet_timestamp.cpp
-  src/duckdb/extension/parquet/parquet_float16.cpp
-  src/duckdb/extension/parquet/parquet_statistics.cpp
-  src/duckdb/extension/parquet/parquet_multi_file_info.cpp
-  src/duckdb/extension/parquet/column_reader.cpp
-  src/duckdb/extension/parquet/geo_parquet.cpp
-  src/duckdb/extension/parquet/parquet_extension.cpp
-  src/duckdb/extension/parquet/column_writer.cpp
-  src/duckdb/extension/parquet/parquet_file_metadata_cache.cpp
   src/duckdb/extension/parquet/serialize_parquet.cpp
+  src/duckdb/extension/parquet/parquet_writer.cpp
+  src/duckdb/extension/parquet/parquet_timestamp.cpp
+  src/duckdb/extension/parquet/parquet_statistics.cpp
+  src/duckdb/extension/parquet/parquet_reader.cpp
+  src/duckdb/extension/parquet/parquet_multi_file_info.cpp
   src/duckdb/extension/parquet/parquet_metadata.cpp
-  src/duckdb/ub_extension_parquet_decoder.cpp
+  src/duckdb/extension/parquet/parquet_float16.cpp
+  src/duckdb/extension/parquet/parquet_file_metadata_cache.cpp
+  src/duckdb/extension/parquet/parquet_extension.cpp
+  src/duckdb/extension/parquet/parquet_crypto.cpp
+  src/duckdb/extension/parquet/geo_parquet.cpp
+  src/duckdb/extension/parquet/column_writer.cpp
+  src/duckdb/extension/parquet/column_reader.cpp
+  src/duckdb/ub_extension_parquet_writer.cpp
   src/duckdb/ub_extension_parquet_reader.cpp
   src/duckdb/ub_extension_parquet_reader_variant.cpp
-  src/duckdb/ub_extension_parquet_writer.cpp
+  src/duckdb/ub_extension_parquet_decoder.cpp
   src/duckdb/third_party/parquet/parquet_types.cpp
   src/duckdb/third_party/thrift/thrift/protocol/TProtocol.cpp
   src/duckdb/third_party/thrift/thrift/transport/TTransportException.cpp
@@ -428,31 +428,31 @@ set(DUCKDB_SRC_FILES
   src/duckdb/third_party/brotli/enc/static_dict.cpp
   src/duckdb/third_party/brotli/enc/utf8_util.cpp
   src/duckdb/extension/icu/./icu_extension.cpp
-  src/duckdb/extension/icu/./icu-strptime.cpp
-  src/duckdb/extension/icu/./icu-datepart.cpp
-  src/duckdb/extension/icu/./icu-makedate.cpp
-  src/duckdb/extension/icu/./icu-datefunc.cpp
-  src/duckdb/extension/icu/./icu-current.cpp
   src/duckdb/extension/icu/./icu-timezone.cpp
-  src/duckdb/extension/icu/./icu-table-range.cpp
-  src/duckdb/extension/icu/./icu-dateadd.cpp
   src/duckdb/extension/icu/./icu-timebucket.cpp
-  src/duckdb/extension/icu/./icu-datesub.cpp
-  src/duckdb/extension/icu/./icu-datetrunc.cpp
+  src/duckdb/extension/icu/./icu-table-range.cpp
+  src/duckdb/extension/icu/./icu-strptime.cpp
+  src/duckdb/extension/icu/./icu-makedate.cpp
   src/duckdb/extension/icu/./icu-list-range.cpp
+  src/duckdb/extension/icu/./icu-datetrunc.cpp
+  src/duckdb/extension/icu/./icu-datesub.cpp
+  src/duckdb/extension/icu/./icu-datepart.cpp
+  src/duckdb/extension/icu/./icu-datefunc.cpp
+  src/duckdb/extension/icu/./icu-dateadd.cpp
+  src/duckdb/extension/icu/./icu-current.cpp
   src/duckdb/ub_extension_icu_third_party_icu_common.cpp
   src/duckdb/ub_extension_icu_third_party_icu_i18n.cpp
   src/duckdb/extension/icu/third_party/icu/stubdata/stubdata.cpp
+  src/duckdb/extension/json/serialize_json.cpp
+  src/duckdb/extension/json/json_serializer.cpp
+  src/duckdb/extension/json/json_scan.cpp
   src/duckdb/extension/json/json_reader.cpp
+  src/duckdb/extension/json/json_multi_file_info.cpp
   src/duckdb/extension/json/json_functions.cpp
   src/duckdb/extension/json/json_extension.cpp
-  src/duckdb/extension/json/json_scan.cpp
-  src/duckdb/extension/json/json_multi_file_info.cpp
   src/duckdb/extension/json/json_enums.cpp
-  src/duckdb/extension/json/serialize_json.cpp
-  src/duckdb/extension/json/json_common.cpp
   src/duckdb/extension/json/json_deserializer.cpp
-  src/duckdb/extension/json/json_serializer.cpp
+  src/duckdb/extension/json/json_common.cpp
   src/duckdb/ub_extension_json_json_functions.cpp)
 
 set(JEMALLOC_SRC_FILES 
@@ -557,7 +557,11 @@ endif()
 # Java compilation
 
 file(GLOB_RECURSE JAVA_SRC_FILES src/main/java/org/duckdb/*.java)
+file(GLOB_RECURSE JAVA_TREX_SRC_FILES src/main/java/org/trex/*.java)
+list(APPEND JAVA_SRC_FILES ${JAVA_TREX_SRC_FILES})
 file(GLOB_RECURSE JAVA_TEST_FILES src/test/java/org/duckdb/*.java)
+file(GLOB_RECURSE JAVA_TREX_TEST_FILES src/test/java/org/trex/*.java)
+list(APPEND JAVA_TEST_FILES ${JAVA_TREX_TEST_FILES})
 set(CMAKE_JAVA_COMPILE_FLAGS -encoding utf-8 -g -Xlint:all)
 
 add_jar(duckdb_jdbc_nolib ${JAVA_SRC_FILES} META-INF/services/java.sql.Driver
@@ -569,12 +573,12 @@ add_jar(duckdb_jdbc_tests ${JAVA_TEST_FILES} INCLUDE_JARS duckdb_jdbc_nolib)
 # main shared lib compilation
 
 if(MSVC)
-  list(APPEND DUCKDB_SRC_FILES duckdb_java.def)
+  list(APPEND DUCKDB_SRC_FILES trexsql_java.def)
 else()
   list(APPEND DUCKDB_SRC_FILES ${JEMALLOC_SRC_FILES})
 endif()
 
-add_library(duckdb_java SHARED
+add_library(trexsql_java SHARED
   src/jni/bindings_appender.cpp
   src/jni/bindings_common.cpp
   src/jni/bindings_data_chunk.cpp
@@ -582,6 +586,7 @@ add_library(duckdb_java SHARED
   src/jni/bindings_validity.cpp
   src/jni/bindings_vector.cpp
   src/jni/config.cpp
+  src/jni/custom_signing_keys.cpp
   src/jni/duckdb_java.cpp
   src/jni/functions.cpp
   src/jni/refs.cpp
@@ -589,36 +594,36 @@ add_library(duckdb_java SHARED
   src/jni/util.cpp
   ${DUCKDB_SRC_FILES})
 
-target_include_directories(duckdb_java PRIVATE
+target_include_directories(trexsql_java PRIVATE
   ${JAVA_INCLUDE_PATH}
   ${JAVA_INCLUDE_PATH2}
   ${DUCKDB_INCLUDE_DIRS})
 
 if (NOT MSVC)
-  target_include_directories(duckdb_java PRIVATE
+  target_include_directories(trexsql_java PRIVATE
     ${JEMALLOC_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(duckdb_java PRIVATE
+target_link_libraries(trexsql_java PRIVATE
   duckdb-native
   ${CMAKE_DL_LIBS})
 
 if(MSVC)
-  target_link_libraries(duckdb_java PRIVATE
+  target_link_libraries(trexsql_java PRIVATE
     ws2_32
     rstrtmgr
     bcrypt)
 endif()
 
 if(MSVC)
-  target_compile_options(duckdb_java PRIVATE
+  target_compile_options(trexsql_java PRIVATE
     /bigobj)
 else()
-  target_compile_options(duckdb_java PRIVATE
+  target_compile_options(trexsql_java PRIVATE
     -fexceptions)
 endif()
 
-target_compile_definitions(duckdb_java PRIVATE
+target_compile_definitions(trexsql_java PRIVATE
   ${DUCKDB_DEFINITIONS}
   -DDUCKDB_BUILD_LIBRARY
   -DDUCKDB_STATIC_BUILD
@@ -626,40 +631,40 @@ target_compile_definitions(duckdb_java PRIVATE
   -DDUCKDB_EXTENSION_AUTOINSTALL_DEFAULT)
 
 if(MSVC)
-  target_compile_definitions(duckdb_java PRIVATE
+  target_compile_definitions(trexsql_java PRIVATE
     -D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR)
 else()
-  target_compile_definitions(duckdb_java PRIVATE
+  target_compile_definitions(trexsql_java PRIVATE
     -DDUCKDB_EXTENSION_JEMALLOC_LINKED)
 endif()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_link_options(duckdb_java PRIVATE
+  target_link_options(trexsql_java PRIVATE
     -Bsymbolic
     -Bsymbolic-functions
     -fvisibility=hidden 
-    -Wl,--version-script=${CMAKE_CURRENT_LIST_DIR}/duckdb_java.map)
+    -Wl,--version-script=${CMAKE_CURRENT_LIST_DIR}/trexsql_java.map)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-  target_link_options(duckdb_java PRIVATE
+  target_link_options(trexsql_java PRIVATE
     -fvisibility=hidden
-    -Wl,-exported_symbols_list,${CMAKE_CURRENT_LIST_DIR}/duckdb_java.exp)
+    -Wl,-exported_symbols_list,${CMAKE_CURRENT_LIST_DIR}/trexsql_java.exp)
 endif()
 
 string(JOIN "_" LIB_SUFFIX ".so" ${OS_NAME} ${OS_ARCH})
-set_target_properties(duckdb_java PROPERTIES SUFFIX ${LIB_SUFFIX})
-set_target_properties(duckdb_java PROPERTIES PREFIX "lib")
+set_target_properties(trexsql_java PROPERTIES SUFFIX ${LIB_SUFFIX})
+set_target_properties(trexsql_java PROPERTIES PREFIX "lib")
 
 
 # JAR packing
 
 add_custom_command(
   OUTPUT dummy_jdbc_target
-  DEPENDS duckdb_java duckdb_jdbc_nolib duckdb_jdbc_tests
+  DEPENDS trexsql_java duckdb_jdbc_nolib duckdb_jdbc_tests
   COMMAND ${CMAKE_COMMAND} -E copy
           duckdb_jdbc_nolib.jar
           duckdb_jdbc.jar
   COMMAND ${Java_JAR_EXECUTABLE} uf duckdb_jdbc.jar -C
-          $<TARGET_FILE_DIR:duckdb_java> $<TARGET_FILE_NAME:duckdb_java>)
+          $<TARGET_FILE_DIR:trexsql_java> $<TARGET_FILE_NAME:trexsql_java>)
 
 add_custom_target(jdbc ALL DEPENDS dummy_jdbc_target)
 

@@ -20,8 +20,6 @@
 
 #include "src/main/capi/expression-c.cpp"
 
-#include "src/main/capi/file_system-c.cpp"
-
 #include "src/main/capi/helper-c.cpp"
 
 #include "src/main/capi/hugeint-c.cpp"

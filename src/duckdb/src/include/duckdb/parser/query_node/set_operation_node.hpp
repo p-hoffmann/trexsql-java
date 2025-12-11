@@ -26,10 +26,14 @@ public:
 	SetOperationType setop_type = SetOperationType::NONE;
 	//! whether the ALL modifier was used or not
 	bool setop_all = false;
-	//! The children of the set operation
-	vector<unique_ptr<QueryNode>> children;
+	//! The left side of the set operation
+	unique_ptr<QueryNode> left;
+	//! The right side of the set operation
+	unique_ptr<QueryNode> right;
 
-	const vector<unique_ptr<ParsedExpression>> &GetSelectList() const override;
+	const vector<unique_ptr<ParsedExpression>> &GetSelectList() const override {
+		return left->GetSelectList();
+	}
 
 public:
 	//! Convert the query node to a string
@@ -50,8 +54,7 @@ public:
 	SetOperationNode(SetOperationType setop_type, unique_ptr<QueryNode> left, unique_ptr<QueryNode> right,
 	                 vector<unique_ptr<QueryNode>> children, bool setop_all);
 
-	unique_ptr<QueryNode> SerializeChildNode(Serializer &serializer, idx_t index) const;
-	bool SerializeChildList(Serializer &serializer) const;
+	vector<unique_ptr<QueryNode>> SerializeChildNodes() const;
 };
 
 } // namespace duckdb

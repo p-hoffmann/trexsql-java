@@ -1,1 +1,2 @@
 org.duckdb.DuckDBDriver
+org.trex.TrexSQLDriver

@@ -115,14 +115,14 @@ public:
 	void LoadStaticExtension() {
 		T extension;
 		auto &manager = ExtensionManager::Get(*instance);
-		auto load_info = manager.BeginLoad(extension.Name());
-		if (!load_info) {
+		auto info = manager.BeginLoad(extension.Name());
+		if (!info) {
 			// already loaded - return
 			return;
 		}
 
 		// Instantiate a new loader
-		ExtensionLoader loader(*load_info);
+		ExtensionLoader loader(*instance, extension.Name());
 
 		// Call the Load method of the extension
 		extension.Load(loader);
@@ -133,7 +133,7 @@ public:
 		ExtensionInstallInfo install_info;
 		install_info.mode = ExtensionInstallMode::STATICALLY_LINKED;
 		install_info.version = extension.Version();
-		load_info->FinishLoad(install_info);
+		info->FinishLoad(install_info);
 	}
 
 	DUCKDB_API FileSystem &GetFileSystem();

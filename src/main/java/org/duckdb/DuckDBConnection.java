@@ -30,7 +30,7 @@ import org.duckdb.user.DuckDBMap;
 import org.duckdb.user.DuckDBUserArray;
 import org.duckdb.user.DuckDBUserStruct;
 
-public final class DuckDBConnection implements java.sql.Connection {
+public class DuckDBConnection implements java.sql.Connection {
 
     /** Name of the DuckDB default schema. */
     public static final String DEFAULT_SCHEMA = "main";

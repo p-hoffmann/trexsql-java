@@ -140,11 +140,21 @@ unique_ptr<LogicalOperator> Binder::UnionOperators(vector<unique_ptr<LogicalOper
 	if (nodes.empty()) {
 		return nullptr;
 	}
-	if (nodes.size() == 1) {
-		return std::move(nodes[0]);
+	while (nodes.size() > 1) {
+		vector<unique_ptr<LogicalOperator>> new_nodes;
+		for (idx_t i = 0; i < nodes.size(); i += 2) {
+			if (i + 1 == nodes.size()) {
+				new_nodes.push_back(std::move(nodes[i]));
+			} else {
+				auto copy_union = make_uniq<LogicalSetOperation>(GenerateTableIndex(), 1U, std::move(nodes[i]),
+				                                                 std::move(nodes[i + 1]),
+				                                                 LogicalOperatorType::LOGICAL_UNION, true, false);
+				new_nodes.push_back(std::move(copy_union));
+			}
+		}
+		nodes = std::move(new_nodes);
 	}
-	return make_uniq<LogicalSetOperation>(GenerateTableIndex(), 1U, std::move(nodes),
-	                                      LogicalOperatorType::LOGICAL_UNION, true, false);
+	return std::move(nodes[0]);
 }
 
 BoundStatement Binder::Bind(ExportStatement &stmt) {

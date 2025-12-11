@@ -76,9 +76,6 @@ public:
 		auto l = Lock();
 		return ReferenceSegments(l);
 	}
-	vector<SegmentNode<T>> &ReferenceLoadedSegmentsMutable(SegmentLock &l) {
-		return nodes;
-	}
 	const vector<SegmentNode<T>> &ReferenceLoadedSegments(SegmentLock &l) const {
 		return nodes;
 	}

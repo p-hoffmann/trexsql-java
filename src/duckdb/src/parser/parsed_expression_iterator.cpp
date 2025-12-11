@@ -300,9 +300,8 @@ void ParsedExpressionIterator::EnumerateQueryNodeChildren(
 	}
 	case QueryNodeType::SET_OPERATION_NODE: {
 		auto &setop_node = node.Cast<SetOperationNode>();
-		for (auto &child : setop_node.children) {
-			EnumerateQueryNodeChildren(*child, expr_callback, ref_callback);
-		}
+		EnumerateQueryNodeChildren(*setop_node.left, expr_callback, ref_callback);
+		EnumerateQueryNodeChildren(*setop_node.right, expr_callback, ref_callback);
 		break;
 	}
 	default:

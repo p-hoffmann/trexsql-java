@@ -57,9 +57,8 @@ public:
 
 	void AppendRowGroup(SegmentLock &l, idx_t start_row);
 	//! Get the nth row-group, negative numbers start from the back (so -1 is the last row group, etc)
-	optional_ptr<RowGroup> GetRowGroup(int64_t index);
+	RowGroup *GetRowGroup(int64_t index);
 	void Verify();
-	void Destroy();
 
 	void InitializeScan(CollectionScanState &state, const vector<StorageIndex> &column_ids,
 	                    optional_ptr<TableFilterSet> table_filters);

@@ -20,8 +20,6 @@
 
 #include "src/function/table/read_csv.cpp"
 
-#include "src/function/table/read_duckdb.cpp"
-
 #include "src/function/table/sniff_csv.cpp"
 
 #include "src/function/table/read_file.cpp"

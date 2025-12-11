@@ -101,7 +101,6 @@ static void VariantExtractFunction(DataChunk &input, ExpressionState &state, Vec
 
 	auto &path = input.data[1];
 	D_ASSERT(path.GetVectorType() == VectorType::CONSTANT_VECTOR);
-	(void)path;
 
 	auto &func_expr = state.expr.Cast<BoundFunctionExpression>();
 	auto &info = func_expr.bind_info->Cast<BindData>();

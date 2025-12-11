@@ -27,7 +27,7 @@ public class DuckDBDriver implements java.sql.Driver {
     public static final String JDBC_PIN_DB = "jdbc_pin_db";
     public static final String JDBC_IGNORE_UNSUPPORTED_OPTIONS = "jdbc_ignore_unsupported_options";
 
-    static final String DUCKDB_URL_PREFIX = "jdbc:duckdb:";
+    public static final String DUCKDB_URL_PREFIX = "jdbc:duckdb:";
     static final String MEMORY_DB = ":memory:";
     private static final String DUCKLAKE_URL_PREFIX = DUCKDB_URL_PREFIX + "ducklake:";
 

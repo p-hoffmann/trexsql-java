@@ -890,16 +890,12 @@ unique_ptr<LogicalOperator> FlattenDependentJoins::PushDownDependentJoinInternal
 		auto &setop = plan->Cast<LogicalSetOperation>();
 		// set operator, push into both children
 #ifdef DEBUG
-		for (auto &child : plan->children) {
-			child->ResolveOperatorTypes();
-		}
-		for (idx_t i = 1; i < plan->children.size(); i++) {
-			D_ASSERT(plan->children[0]->types.size() == plan->children[i]->types.size());
-		}
+		plan->children[0]->ResolveOperatorTypes();
+		plan->children[1]->ResolveOperatorTypes();
+		D_ASSERT(plan->children[0]->types == plan->children[1]->types);
 #endif
-		for (auto &child : plan->children) {
-			child = PushDownDependentJoin(std::move(child));
-		}
+		plan->children[0] = PushDownDependentJoin(std::move(plan->children[0]));
+		plan->children[1] = PushDownDependentJoin(std::move(plan->children[1]));
 		for (idx_t i = 0; i < plan->children.size(); i++) {
 			if (plan->children[i]->type == LogicalOperatorType::LOGICAL_CROSS_PRODUCT) {
 				auto proj_index = binder.GenerateTableIndex();
@@ -924,15 +920,10 @@ unique_ptr<LogicalOperator> FlattenDependentJoins::PushDownDependentJoinInternal
 		// here we need to check the children. If they have reorderable bindings, you need to plan a projection
 		// on top that will guarantee the order of the bindings.
 #ifdef DEBUG
-		for (idx_t i = 1; i < plan->children.size(); i++) {
-			D_ASSERT(plan->children[0]->GetColumnBindings().size() == plan->children[i]->GetColumnBindings().size());
-		}
-		for (auto &child : plan->children) {
-			child->ResolveOperatorTypes();
-		}
-		for (idx_t i = 1; i < plan->children.size(); i++) {
-			D_ASSERT(plan->children[0]->types.size() == plan->children[i]->types.size());
-		}
+		D_ASSERT(plan->children[0]->GetColumnBindings().size() == plan->children[1]->GetColumnBindings().size());
+		plan->children[0]->ResolveOperatorTypes();
+		plan->children[1]->ResolveOperatorTypes();
+		D_ASSERT(plan->children[0]->types == plan->children[1]->types);
 #endif
 		// we have to refer to the setop index now
 		base_binding.table_index = setop.table_index;

@@ -27,7 +27,7 @@ public:
 
 	unsafe_vector<uint16_t> definition_levels;
 	unsafe_vector<uint16_t> repetition_levels;
-	unsafe_vector<uint8_t> is_empty;
+	vector<bool> is_empty;
 	idx_t parent_null_count = 0;
 	idx_t null_count = 0;
 

@@ -494,7 +494,7 @@ Value DefaultSecretStorageSetting::GetSetting(const ClientContext &context) {
 //===----------------------------------------------------------------------===//
 void DisabledCompressionMethodsSetting::SetGlobal(DatabaseInstance *db, DBConfig &config, const Value &input) {
 	auto list = StringUtil::Split(input.ToString(), ",");
-	vector<CompressionType> disabled_compression_methods;
+	set<CompressionType> disabled_compression_methods;
 	for (auto &entry : list) {
 		auto param = StringUtil::Lower(entry);
 		StringUtil::Trim(param);
@@ -512,20 +512,19 @@ void DisabledCompressionMethodsSetting::SetGlobal(DatabaseInstance *db, DBConfig
 		if (compression_type == CompressionType::COMPRESSION_AUTO) {
 			throw InvalidInputException("Unrecognized compression method \"%s\"", entry);
 		}
-		disabled_compression_methods.push_back(compression_type);
+		disabled_compression_methods.insert(compression_type);
 	}
-	config.SetDisabledCompressionMethods(disabled_compression_methods);
+	config.options.disabled_compression_methods = std::move(disabled_compression_methods);
 }
 
 void DisabledCompressionMethodsSetting::ResetGlobal(DatabaseInstance *db, DBConfig &config) {
-	vector<CompressionType> disabled_compression_methods;
-	config.SetDisabledCompressionMethods(disabled_compression_methods);
+	config.options.disabled_compression_methods = DBConfigOptions().disabled_compression_methods;
 }
 
 Value DisabledCompressionMethodsSetting::GetSetting(const ClientContext &context) {
 	auto &config = DBConfig::GetConfig(context);
 	string result;
-	for (auto &optimizer : config.GetDisabledCompressionMethods()) {
+	for (auto &optimizer : config.options.disabled_compression_methods) {
 		if (!result.empty()) {
 			result += ",";
 		}

@@ -37,10 +37,10 @@ ColumnDataAllocator::ColumnDataAllocator(ColumnDataAllocator &other) {
 	switch (type) {
 	case ColumnDataAllocatorType::BUFFER_MANAGER_ALLOCATOR:
 	case ColumnDataAllocatorType::HYBRID:
-		alloc.buffer_manager = other.alloc.buffer_manager;
+		alloc.allocator = other.alloc.allocator;
 		break;
 	case ColumnDataAllocatorType::IN_MEMORY_ALLOCATOR:
-		alloc.allocator = other.alloc.allocator;
+		alloc.buffer_manager = other.alloc.buffer_manager;
 		break;
 	default:
 		throw InternalException("Unrecognized column data allocator type");
