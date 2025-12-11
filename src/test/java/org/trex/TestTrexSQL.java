@@ -4,7 +4,6 @@ import static org.duckdb.test.Assertions.*;
 import static org.duckdb.test.Runner.runTests;
 
 import java.sql.*;
-
 import org.duckdb.DuckDBAppender;
 import org.duckdb.DuckDBConnection;
 
@@ -41,8 +40,7 @@ public class TestTrexSQL {
     }
 
     public static void test_trex_connection_query() throws Exception {
-        try (Connection conn = DriverManager.getConnection(TREX_JDBC_URL);
-             Statement stmt = conn.createStatement();
+        try (Connection conn = DriverManager.getConnection(TREX_JDBC_URL); Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT 42 AS answer")) {
             assertTrue(rs.next());
             assertEquals(42, rs.getInt("answer"));
@@ -70,8 +68,7 @@ public class TestTrexSQL {
     }
 
     public static void test_trex_appender() throws Exception {
-        try (Connection conn = DriverManager.getConnection(TREX_JDBC_URL);
-             Statement stmt = conn.createStatement()) {
+        try (Connection conn = DriverManager.getConnection(TREX_JDBC_URL); Statement stmt = conn.createStatement()) {
 
             stmt.execute("CREATE TABLE test_table (id INTEGER, name VARCHAR)");
 
@@ -80,15 +77,9 @@ public class TestTrexSQL {
                 assertTrue(appender != null);
                 assertFalse(appender.isClosed());
 
-                appender.beginRow()
-                        .append(1)
-                        .append("Alice")
-                        .endRow();
+                appender.beginRow().append(1).append("Alice").endRow();
 
-                appender.beginRow()
-                        .append(2)
-                        .append("Bob")
-                        .endRow();
+                appender.beginRow().append(2).append("Bob").endRow();
 
                 appender.flush();
             }
@@ -108,8 +99,7 @@ public class TestTrexSQL {
     }
 
     public static void test_trex_appender_unwrap() throws Exception {
-        try (Connection conn = DriverManager.getConnection(TREX_JDBC_URL);
-             Statement stmt = conn.createStatement()) {
+        try (Connection conn = DriverManager.getConnection(TREX_JDBC_URL); Statement stmt = conn.createStatement()) {
 
             stmt.execute("CREATE TABLE test_unwrap (value INTEGER)");
 
@@ -133,8 +123,7 @@ public class TestTrexSQL {
     }
 
     public static void test_trex_transaction() throws Exception {
-        try (Connection conn = DriverManager.getConnection(TREX_JDBC_URL);
-             Statement stmt = conn.createStatement()) {
+        try (Connection conn = DriverManager.getConnection(TREX_JDBC_URL); Statement stmt = conn.createStatement()) {
 
             conn.setAutoCommit(false);
 

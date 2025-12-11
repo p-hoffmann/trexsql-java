@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.time.*;
 import java.util.*;
-
 import org.duckdb.DuckDBAppender;
 
 /**
