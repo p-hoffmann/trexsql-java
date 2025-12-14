@@ -5,16 +5,17 @@ before_install:
   - rm -f pom.xml
 
 install:
-  - mkdir -p ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION
-  - curl -L -o ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION/$REPO_NAME-$VERSION.jar https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$VERSION/trexsql-${VERSION#v}.jar
+  - export OWNER=p-hoffmann REPO=trexsql-java VER=${VERSION:-v0.1.3} && mkdir -p ~/.m2/repository/com/github/${OWNER}/${REPO}/${VER}
+  - export OWNER=p-hoffmann REPO=trexsql-java VER=${VERSION:-v0.1.3} && curl -L -o ~/.m2/repository/com/github/${OWNER}/${REPO}/${VER}/${REPO}-${VER}.jar https://github.com/${OWNER}/${REPO}/releases/download/${VER}/trexsql-${VER#v}.jar
   - |
-    cat > ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION/$REPO_NAME-$VERSION.pom << EOF
+    export OWNER=p-hoffmann REPO=trexsql-java VER=${VERSION:-v0.1.3}
+    cat > ~/.m2/repository/com/github/${OWNER}/${REPO}/${VER}/${REPO}-${VER}.pom << EOFPOM
     <?xml version="1.0" encoding="UTF-8"?>
     <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <modelVersion>4.0.0</modelVersion>
-      <groupId>com.github.$REPO_OWNER</groupId>
-      <artifactId>$REPO_NAME</artifactId>
-      <version>$VERSION</version>
+      <groupId>com.github.${OWNER}</groupId>
+      <artifactId>${REPO}</artifactId>
+      <version>${VER}</version>
       <packaging>jar</packaging>
     </project>
-    EOF
+    EOFPOM
