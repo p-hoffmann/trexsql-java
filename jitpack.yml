@@ -1,6 +1,9 @@
 jdk:
   - openjdk11
 
+before_install:
+  - rm -f pom.xml
+
 install:
   - mkdir -p ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION
   - curl -L -o ~/.m2/repository/com/github/$REPO_OWNER/$REPO_NAME/$VERSION/$REPO_NAME-$VERSION.jar https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$VERSION/trexsql-${VERSION#v}.jar
