@@ -36,11 +36,11 @@ public class TestNoLib {
         String os = DuckDBNative.osName();
         switch (os) {
         case "windows":
-            return "duckdb_java.dll";
+            return "trexsql_java.dll";
         case "osx":
-            return "libduckdb_java.dylib";
+            return "libtrexsql_java.dylib";
         case "linux":
-            return "libduckdb_java.so";
+            return "libtrexsql_java.so";
         default:
             throw new SQLException("Unsupported OS: " + os);
         }
