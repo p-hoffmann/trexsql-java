@@ -3,19 +3,20 @@ jdk:
 
 before_install:
   - rm -f pom.xml
+  - echo "VERSION=$VERSION"
 
 install:
-  - export OWNER=p-hoffmann REPO=trexsql-java VER=${VERSION:-v0.1.3} && mkdir -p ~/.m2/repository/com/github/${OWNER}/${REPO}/${VER}
-  - export OWNER=p-hoffmann REPO=trexsql-java VER=${VERSION:-v0.1.3} && curl -L -o ~/.m2/repository/com/github/${OWNER}/${REPO}/${VER}/${REPO}-${VER}.jar https://github.com/${OWNER}/${REPO}/releases/download/${VER}/trexsql-${VER#v}.jar
   - |
-    export OWNER=p-hoffmann REPO=trexsql-java VER=${VERSION:-v0.1.3}
-    cat > ~/.m2/repository/com/github/${OWNER}/${REPO}/${VER}/${REPO}-${VER}.pom << EOFPOM
-    <?xml version="1.0" encoding="UTF-8"?>
-    <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <modelVersion>4.0.0</modelVersion>
-      <groupId>com.github.${OWNER}</groupId>
-      <artifactId>${REPO}</artifactId>
-      <version>${VER}</version>
-      <packaging>jar</packaging>
-    </project>
-    EOFPOM
+    VER_NUM=$(echo $VERSION | sed 's/^v//')
+    URL="https://github.com/p-hoffmann/trexsql-java/releases/download/${VERSION}/trexsql-${VER_NUM}.jar"
+    echo "Waiting for release artifact: $URL"
+    for i in $(seq 1 40); do
+      if curl -sfL -o /tmp/trexsql.jar "$URL"; then
+        echo "Downloaded successfully"
+        break
+      fi
+      echo "Attempt $i/40 failed, waiting 30s..."
+      sleep 30
+    done
+    test -f /tmp/trexsql.jar || exit 1
+  - mvn install:install-file -Dfile=/tmp/trexsql.jar -DgroupId=com.github.p-hoffmann -DartifactId=trexsql-java -Dversion=$VERSION -Dpackaging=jar
