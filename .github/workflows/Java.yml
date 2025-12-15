@@ -455,10 +455,12 @@ jobs:
           key: ${{ steps.cache_key.outputs.value }}
 
       - name: Extract public key from signing key
-        if: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY != '' }}
+        env:
+          SIGNING_KEY: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
+        if: ${{ env.SIGNING_KEY != '' }}
         shell: bash
         run: |
-          echo "${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}" > /tmp/signing_key.pem
+          echo "$SIGNING_KEY" > /tmp/signing_key.pem
           chmod 600 /tmp/signing_key.pem
           openssl rsa -in /tmp/signing_key.pem -pubout -out signing_key.pub 2>/dev/null
           rm -f /tmp/signing_key.pem
@@ -545,10 +547,12 @@ jobs:
           key: ${{ steps.cache_key.outputs.value }}
 
       - name: Extract public key from signing key
-        if: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY != '' }}
+        env:
+          SIGNING_KEY: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
+        if: ${{ env.SIGNING_KEY != '' }}
         shell: bash
         run: |
-          echo "${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}" > /tmp/signing_key.pem
+          echo "$SIGNING_KEY" > /tmp/signing_key.pem
           chmod 600 /tmp/signing_key.pem
           openssl rsa -in /tmp/signing_key.pem -pubout -out signing_key.pub 2>/dev/null
           rm -f /tmp/signing_key.pem
@@ -634,10 +638,12 @@ jobs:
             ninja
 
       - name: Extract public key from signing key
-        if: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY != '' }}
+        env:
+          SIGNING_KEY: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
+        if: ${{ env.SIGNING_KEY != '' }}
         shell: bash
         run: |
-          echo "${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}" > /tmp/signing_key.pem
+          echo "$SIGNING_KEY" > /tmp/signing_key.pem
           chmod 600 /tmp/signing_key.pem
           openssl rsa -in /tmp/signing_key.pem -pubout -out signing_key.pub 2>/dev/null
           rm -f /tmp/signing_key.pem
