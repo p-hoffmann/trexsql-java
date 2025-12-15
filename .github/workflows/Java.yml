@@ -55,6 +55,7 @@ jobs:
         uses: ./.github/composite-actions/linux-build-docker
         with:
           docker_image: '${{ env.MANYLINUX_IMAGE }}'
+          signing_key: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
 
       - name: List Symbols
         run: |
@@ -122,6 +123,7 @@ jobs:
         uses: ./.github/composite-actions/linux-build-docker
         with:
           docker_image: '${{ env.MANYLINUX_IMAGE }}'
+          signing_key: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
 
       - name: Checkout Platform TCK
         if: ${{ inputs.skip_tests != 'true' }}
@@ -199,6 +201,7 @@ jobs:
         uses: ./.github/composite-actions/linux-build-docker
         with:
           docker_image: '${{ env.MANYLINUX_IMAGE }}'
+          signing_key: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
 
       - name: Spark Test Resources
         run: |
@@ -273,6 +276,7 @@ jobs:
         uses: ./.github/composite-actions/linux-build-docker
         with:
           docker_image: '${{ env.MANYLINUX_IMAGE }}'
+          signing_key: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
 
       - name: List Symbols
         run: |
@@ -334,6 +338,7 @@ jobs:
         uses: ./.github/composite-actions/linux-build-musl-docker
         with:
           docker_image: '${{ env.ALPINE_IMAGE }}'
+          signing_key: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
 
       - name: List Symbols
         run: |
@@ -391,6 +396,7 @@ jobs:
         uses: ./.github/composite-actions/linux-build-musl-docker
         with:
           docker_image: '${{ env.ALPINE_IMAGE }}'
+          signing_key: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}
 
       - name: List Symbols
         run: |
@@ -448,6 +454,15 @@ jobs:
           path: ${{ github.workspace }}/ccache
           key: ${{ steps.cache_key.outputs.value }}
 
+      - name: Extract public key from signing key
+        if: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY != '' }}
+        shell: bash
+        run: |
+          echo "${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}" > /tmp/signing_key.pem
+          chmod 600 /tmp/signing_key.pem
+          openssl rsa -in /tmp/signing_key.pem -pubout -out signing_key.pub 2>/dev/null
+          rm -f /tmp/signing_key.pem
+
       - name: Build
         shell: cmd
         run: |
@@ -456,7 +471,7 @@ jobs:
           cd build
           mkdir release
           cd release
-          cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Release -DDUCKDB_CUSTOM_SIGNING_KEYS=%GITHUB_WORKSPACE%/signing_key.pub
           cmake --build . --config Release
 
       - name: List Symbols
@@ -488,7 +503,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: ${{ github.workspace }}/ccache
-          key: ${{ steps.cache_key.outputs.value }} 
+          key: ${{ steps.cache_key.outputs.value }}
 
   java-windows-aarch64:
     name: Windows (aarch64)
@@ -529,6 +544,15 @@ jobs:
           path: ${{ github.workspace }}/ccache
           key: ${{ steps.cache_key.outputs.value }}
 
+      - name: Extract public key from signing key
+        if: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY != '' }}
+        shell: bash
+        run: |
+          echo "${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}" > /tmp/signing_key.pem
+          chmod 600 /tmp/signing_key.pem
+          openssl rsa -in /tmp/signing_key.pem -pubout -out signing_key.pub 2>/dev/null
+          rm -f /tmp/signing_key.pem
+
       - name: Build
         shell: cmd
         run: |
@@ -537,7 +561,7 @@ jobs:
           cd build
           mkdir release
           cd release
-          cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Release -DDUCKDB_CUSTOM_SIGNING_KEYS=%GITHUB_WORKSPACE%/signing_key.pub
           cmake --build . --config Release
 
       - name: List Symbols
@@ -608,6 +632,16 @@ jobs:
           brew install -q \
             ccache \
             ninja
+
+      - name: Extract public key from signing key
+        if: ${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY != '' }}
+        shell: bash
+        run: |
+          echo "${{ secrets.DUCKDB_EXTENSION_SIGNING_KEY }}" > /tmp/signing_key.pem
+          chmod 600 /tmp/signing_key.pem
+          openssl rsa -in /tmp/signing_key.pem -pubout -out signing_key.pub 2>/dev/null
+          rm -f /tmp/signing_key.pem
+          echo "DUCKDB_CUSTOM_SIGNING_KEYS=$(pwd)/signing_key.pub" >> $GITHUB_ENV
 
       - name: Build
         shell: bash

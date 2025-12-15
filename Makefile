@@ -17,6 +17,10 @@ ifneq ($(OVERRIDE_JDBC_OS_ARCH),)
 	ARCH_OVERRIDE=-DOVERRIDE_JDBC_OS_ARCH=$(OVERRIDE_JDBC_OS_ARCH)
 endif
 
+SIGNING_KEYS=
+ifneq ($(DUCKDB_CUSTOM_SIGNING_KEYS),)
+	SIGNING_KEYS=-DDUCKDB_CUSTOM_SIGNING_KEYS=$(DUCKDB_CUSTOM_SIGNING_KEYS)
+endif
 
 GENERATOR=
 ifeq ($(GEN),ninja)
@@ -33,11 +37,11 @@ test:
 
 debug:
 	mkdir -p build/debug
-	cd build/debug && cmake -DCMAKE_BUILD_TYPE=Debug $(GENERATOR) $(ARCH_OVERRIDE) ../.. && cmake --build . --config Debug
+	cd build/debug && cmake -DCMAKE_BUILD_TYPE=Debug $(GENERATOR) $(ARCH_OVERRIDE) $(SIGNING_KEYS) ../.. && cmake --build . --config Debug
 
 release:
 	mkdir -p build/release
-	cd build/release && cmake -DCMAKE_BUILD_TYPE=Release $(GENERATOR) $(ARCH_OVERRIDE) ../.. && cmake --build . --config Release
+	cd build/release && cmake -DCMAKE_BUILD_TYPE=Release $(GENERATOR) $(ARCH_OVERRIDE) $(SIGNING_KEYS) ../.. && cmake --build . --config Release
 
 format:
 	python3 scripts/format.py

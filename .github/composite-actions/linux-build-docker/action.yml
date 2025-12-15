@@ -5,10 +5,24 @@ inputs:
     description: 'Docker image name'
     required: true
     default: ''
+  signing_key:
+    description: 'Private signing key (PEM format) for extension verification'
+    required: false
+    default: ''
 
 runs:
   using: "composite"
   steps:
+    - name: Extract public key from signing key
+      if: ${{ inputs.signing_key != '' }}
+      shell: bash
+      run: |
+        echo "${{ inputs.signing_key }}" > /tmp/signing_key.pem
+        chmod 600 /tmp/signing_key.pem
+        openssl rsa -in /tmp/signing_key.pem -pubout -out signing_key.pub 2>/dev/null
+        rm -f /tmp/signing_key.pem
+        echo "DUCKDB_CUSTOM_SIGNING_KEYS=$(pwd)/signing_key.pub" >> $GITHUB_ENV
+
     - name: Build
       shell: bash
       run: |
@@ -19,6 +33,7 @@ runs:
         -e CXX='ccache g++'                          \
         -e CCACHE_DIR=/duckdb/ccache                 \
         -e JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk \
+        -e DUCKDB_CUSTOM_SIGNING_KEYS=${DUCKDB_CUSTOM_SIGNING_KEYS:+/duckdb/signing_key.pub} \
         ${{ inputs.docker_image }}                    \
         bash -c "
           set -e
