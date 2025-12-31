@@ -578,6 +578,29 @@ else()
   list(APPEND DUCKDB_SRC_FILES ${JEMALLOC_SRC_FILES})
 endif()
 
+# Generate custom_signing_keys.cpp with the public key from DUCKDB_CUSTOM_SIGNING_KEYS
+if(DEFINED DUCKDB_CUSTOM_SIGNING_KEYS AND EXISTS "${DUCKDB_CUSTOM_SIGNING_KEYS}")
+  message(STATUS "Generating custom signing keys from ${DUCKDB_CUSTOM_SIGNING_KEYS}")
+  file(READ "${DUCKDB_CUSTOM_SIGNING_KEYS}" CUSTOM_PUBLIC_KEY_CONTENT)
+  # Escape the key content for C++ string literal
+  string(REPLACE "\n" "\\n" CUSTOM_PUBLIC_KEY_ESCAPED "${CUSTOM_PUBLIC_KEY_CONTENT}")
+  string(REPLACE "\"" "\\\"" CUSTOM_PUBLIC_KEY_ESCAPED "${CUSTOM_PUBLIC_KEY_ESCAPED}")
+  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/src/jni/custom_signing_keys.cpp"
+    "// Auto-generated from DUCKDB_CUSTOM_SIGNING_KEYS
+// Custom signing keys for extension verification
+
+namespace duckdb {
+
+extern const char *const custom_public_keys[] = {
+R\"(${CUSTOM_PUBLIC_KEY_CONTENT})\",
+nullptr};
+
+} // namespace duckdb
+")
+else()
+  message(STATUS "No custom signing keys configured (DUCKDB_CUSTOM_SIGNING_KEYS not set or file not found)")
+endif()
+
 add_library(trexsql_java SHARED
   src/jni/bindings_appender.cpp
   src/jni/bindings_common.cpp
